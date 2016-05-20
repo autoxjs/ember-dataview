@@ -1,6 +1,6 @@
 {
   "name": "ember-dataview",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Introduces a dataview object and service which are like controllers except they exclusively handle data loading",
   "directories": {
     "doc": "doc",
