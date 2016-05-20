@@ -57,6 +57,10 @@ describe 'Acceptance: Dataview', ->
       expect(@appletree).to.have.property("tree", "promise")
     it "handles regular values", ->
       expect(@appletree).to.have.property("birds", "birds")
+    it "handles its own context correct", ->
+      expect(@appletree).to.have.property("ctx", "granny-smith")
+    it "should be able to resolve its owner", ->
+      expect(@appletree).to.have.property "lookupEngine"
 
     describe "singleton persistance", ->
       before ->

@@ -2,10 +2,10 @@
 `import _ from 'lodash/lodash'`
 
 {A, RSVP, inject: {service}} = Ember
-{bind, chain, partialRight} = _
+{bind, chain, bind} = _
 
-resolveAp = (f, params) ->
-  RSVP.resolve f params
+resolveAp = (params, f) ->
+  RSVP.resolve f.call @, params
 Dataview = Ember.Object.extend
   dataviewLoadStatus: "unloaded"
   store: service "store"
@@ -30,7 +30,7 @@ Dataview = Ember.Object.extend
   forceLoad: (params) ->
     @set "dataviewLoadStatus", "loading"
     chain @loads
-    .mapValues partialRight(resolveAp, params)
+    .mapValues bind(resolveAp, @, params)
     .thru RSVP.hash
     .value()
     .then (hash) => @setProperties hash
