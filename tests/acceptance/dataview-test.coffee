@@ -15,6 +15,21 @@ describe 'Acceptance: Dataview', ->
   after ->
     Ember.run @application, 'destroy'
 
+  describe "lookup", ->
+    before (done) ->
+      @dataviews.eagerLoad "cherrytree",
+        harvest: "june"
+      .then (cherrytree) =>
+        @cherrytree = cherrytree
+        done()
+    it "should properly create and register a default dataview", ->
+      expect @cherrytree
+      .to.have.property "dataviewName", "cherrytree"
+
+    it "should have the default load which just passes a model through", ->
+      expect @cherrytree.get("model")
+      .to.deep.equal harvest: "june"
+
   describe "normalize", ->
     it "should properly return a name", ->
       expect @dataviews.normalize "appletree"
@@ -35,6 +50,8 @@ describe 'Acceptance: Dataview', ->
       .then (appletree) =>
         @appletree = appletree
         done()
+    it "should have the right dataviewName", ->
+      expect(@appletree).to.have.property("dataviewName", "appletree")
     it "resolves promise values", ->
       expect(@appletree).to.have.property("tree", "promise")
     it "handles regular values", ->

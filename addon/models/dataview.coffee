@@ -44,6 +44,6 @@ Dataview = Ember.Object.extend
 
   childViews: []
   loads:
-    default: RSVP.resolve
+    model: (opts) -> opts
 
 `export default Dataview`
