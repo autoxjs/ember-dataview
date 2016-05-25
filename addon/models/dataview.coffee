@@ -34,8 +34,12 @@ Dataview = Ember.Object.extend
     .thru RSVP.hash
     .value()
     .then (hash) => @setProperties hash
-    .then => @
-    .finally => @set "dataviewLoadStatus", "loaded"
+    .then =>
+      @set "dataviewLoadStatus", "loaded"
+      @
+    .catch (error) ->
+      @set "dataviewLoadStatus", "error"
+      throw error
 
   reset: ->
     dataviews = @get "dataviews"
