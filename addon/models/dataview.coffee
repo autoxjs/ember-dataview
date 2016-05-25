@@ -33,8 +33,8 @@ Dataview = Ember.Object.extend
     .mapValues bind(resolveAp, @, params)
     .thru RSVP.hash
     .value()
-    .then (hash) => @setProperties hash
-    .then =>
+    .then (hash) => 
+      @setProperties hash
       @set "dataviewLoadStatus", "loaded"
       @
     .catch (error) ->
