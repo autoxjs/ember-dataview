@@ -8,8 +8,7 @@ resolveAp = (params, f) ->
   RSVP.resolve f.call @, params
 Dataview = Ember.Object.extend
   dataviewLoadStatus: "unloaded"
-  store: service "store"
-  dataviews: service "dataviews"
+
   lazyLoad: (params) ->
     return RSVP.resolve(@) unless @get("dataviewLoadStatus") is "unloaded"
     @forceLoad()
@@ -42,9 +41,7 @@ Dataview = Ember.Object.extend
       throw error
 
   reset: ->
-    dataviews = @get "dataviews"
     @set "dataviewLoadStatus", "unloaded"
-    dataviews.reset(viewName) for viewName in @childViews
 
   childViews: []
   loads:

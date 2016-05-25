@@ -37,14 +37,13 @@ describe 'Acceptance: Dataview', ->
     it "should work on longer names", ->
       expect @dataviews.normalize "dashboard.projects.new"
       .to.equal "dataview:dashboard/projects/new"
-  describe "lookup", ->
+  describe "lookupFactory", ->
     before ->
-      @appletree = @dataviews.lookup "appletree"
+      @appletreeFactory = @dataviews.lookupFactory "appletree"
     it "should find the appletree", ->
-      expect(Ember.typeOf @appletree).to.equal "instance"
+      expect(Ember.typeOf @appletreeFactory).to.equal "class"
 
   describe "eagerLoad", ->
-    after -> @appletree.reset()
     before (done) ->
       @dataviews.eagerLoad "appletree"
       .then (appletree) =>
@@ -64,7 +63,6 @@ describe 'Acceptance: Dataview', ->
       it "should have the right value", ->
         expect(@flower).to.have.property "bloom", true
   describe "lazyLoad", ->
-    after -> @appletree.reset()
     before (done) ->
       @dataviews.lazyLoad "appletree"
       .then (appletree) =>
@@ -79,10 +77,13 @@ describe 'Acceptance: Dataview', ->
     it "should be able to resolve its owner", ->
       expect(@appletree).to.have.property "lookupEngine"
 
-    describe "singleton persistance", ->
-      before ->
-        @appletree2 = @container.lookup "dataview:appletree"
-      it "should be the same instance", ->
-        expect(@appletree).to.equal @appletree2
+    describe "instance handling", ->
+      before (done) ->
+        @dataviews.lazyLoad "appletree"
+        .then (appletree) =>
+          @appletree2 = appletree
+          done()
+      it "should not be the same instance", ->
+        expect(@appletree).to.not.equal @appletree2
       it "should be testing the right thing", ->
         expect({}).to.not.equal({})
