@@ -30,6 +30,17 @@ describe 'Acceptance: Dataview', ->
       expect @cherrytree.get("model")
       .to.deep.equal harvest: "june"
 
+    describe "store", ->
+      before ->
+        @store = @cherrytree.get("store")
+      it "should have a store", ->
+        expect @store
+        .to.be.ok
+    describe "dataviews", ->
+      it "should have a handle back to the dataviews service", ->
+        expect @cherrytree.get("dataviews")
+        .to.equal @dataviews
+
   describe "normalize", ->
     it "should properly return a name", ->
       expect @dataviews.normalize "appletree"

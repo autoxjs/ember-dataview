@@ -2,7 +2,7 @@
 `import getOwner from 'ember-getowner-polyfill'`
 `import Dataview from '../models/dataview'`
 
-{isBlank} = Ember
+{isBlank, inject: {service}} = Ember
 assertPresence = (name, instance) ->
   if isBlank instance
     throw new Error "Expected to find a dataview named '#{name}'"
@@ -11,6 +11,7 @@ assertPresence = (name, instance) ->
 
 DataviewsService = Ember.Service.extend
   defaultViewFactory: Dataview
+  store: service "store"
   dataviewInitAttrs: (name) ->
     store: @get "store"
     dataviews: @
